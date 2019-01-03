@@ -1,4 +1,4 @@
-cam/output/*
+cam/output/*.avi
 log/*
 *.pyc
 *~
