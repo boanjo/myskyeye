@@ -1,0 +1,9 @@
+cam/output/*
+log/*
+*.pyc
+*~
+nohup.out
+*#
+__pycache__
+*.pyc
+docker.txt
