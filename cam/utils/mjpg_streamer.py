@@ -5,6 +5,7 @@
 import cv2
 import threading
 import http
+import logging
 from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
 from SocketServer import ThreadingMixIn
 import time
@@ -59,7 +60,7 @@ class CamHandler(BaseHTTPRequestHandler):
                     diff = time.time() - start
                     time.sleep(max(0, (self.server.read_delay - diff)))
                 except (cv2.error):
-                    print "Skipping frame"
+                    logging.warning("Skipping frame")
                 except (IOError, requests.ConnectionError):
                     break
         elif self.path.endswith('.mjpg'):
@@ -109,7 +110,7 @@ class CamHandler(BaseHTTPRequestHandler):
                         else:
                             break
                     except (cv2.error):
-                        print "Skipping frame"
+                        logging.warning("Skipping frame")
                     except (IOError, requests.ConnectionError):
                         break
             else:
@@ -164,9 +165,10 @@ class ThreadedHTTPServer(ThreadingMixIn, HTTPServer):
 
 
 def main():
+    logging.basicConfig(format='%(asctime)s %(message)s', stream=sys.stdout, level=logging.INFO)    
     blank_image = np.zeros((1280,720,3), np.uint8)
     server = ThreadedHTTPServer(blank_image, ('0.0.0.0', 9999), CamHandler)
-    print("server started")
+    logging.info("MJPG Replay server started")
     server.serve_forever()
 
 

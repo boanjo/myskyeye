@@ -250,6 +250,7 @@ def get_objects_and_faces(objs, data, frame_boxes, grayscale_frame):
                     weight = weight + area    
 
                 # extra weight if the posistion is 'good' i.e. up the stairs
+                # Here you can decide what is a good position for you (if any preffered)
                 xpos = point['xmax'] - point['xmin']
                 xdiff = abs(xpos-0.35)
                 
@@ -257,6 +258,11 @@ def get_objects_and_faces(objs, data, frame_boxes, grayscale_frame):
                 ydiff = abs(ylen-0.8)
                 
                 weight = weight + (1.0 - (xdiff+ydiff))
+
+                # Add extra weight is we are not maxing out upper location
+                # I.e. top of person is within picture
+                if point['ymin'] > 0.01:
+                    weight = weight + 0.5
 
     return weight, frame_boxes
 

@@ -1,12 +1,13 @@
 import argparse
 import os
 import cv2
-import time
+import sys
 import psutil
+import time
+import logging
 import utils.database as db
 from utils.frame_worker import *
 from utils.mjpg_streamer import ThreadedHTTPServer, CamHandler
-import logging
 import datetime
 import threading
 import multiprocessing
@@ -74,15 +75,6 @@ def process_frames(output_q, server):
                             fontColor,
                             lineType)
             x = x + 1
-
-#        if frame_number % 1000 is 0:    
-#            x = 0
-#            logging.info("*******Histogram frame time (bin * 10 ms) **********")
-#            while x < 31:
-#                logging.info("hist[" + str(x) + "] = " + str(histogram[x]))
-#                x = x + 1
-
-
         
         # Movement 
         if movement == True:
@@ -193,18 +185,12 @@ if __name__ == '__main__':
                         default=1, help='Number of workers.')
     ap.add_argument('-q-size', '--queue-size', dest='queue_size', type=int,
                         default=10, help='Size of the queue.')
-    ap.add_argument('-l', '--logger-debug', dest='logger_debug', type=int,
-                        default=0, help='Print logger debug')
     args = vars(ap.parse_args())
 
-
     pid = os.getpid()
-    p = psutil.Process(pid) 
-    print "Affinity was " + str(p.cpu_affinity())
-    p.cpu_affinity([0,1,2,3])
-    print "Affinity now " + str(p.cpu_affinity())
-
-    logging.basicConfig(format='%(asctime)s %(message)s', filename='log/motion_detection.txt',level=logging.INFO)
+    p = psutil.Process(pid)    
+    
+    logging.basicConfig(format='%(asctime)s %(message)s', stream=sys.stdout, level=logging.INFO)    
     logger = multiprocessing.log_to_stderr()
     logger.setLevel(multiprocessing.SUBDEBUG)
 
@@ -216,7 +202,7 @@ if __name__ == '__main__':
     # Streaming server
     blank_image = np.zeros((1280,720,3), np.uint8)
     server = ThreadedHTTPServer(blank_image, ('0.0.0.0', 9999), CamHandler)
-    print("server started")
+    logging.info("server started")
     httpThread = threading.Thread(target=server.serve_forever)
     httpThread.setDaemon = True
     httpThread.start()
@@ -225,7 +211,7 @@ if __name__ == '__main__':
     t.start()
 
     rtsp_url = str(os.environ['RTSP_URL'])
-    print("Reading RTSP from: " + rtsp_url)
+    logging.info("Reading RTSP from: " + rtsp_url)
     
     video_capture = cv2.VideoCapture(rtsp_url)
     fn = 0
@@ -243,8 +229,14 @@ if __name__ == '__main__':
                 
             input_q.put((fn, frame))
         else:
+            logging.warning("Release Camera and stop loop")
             video_capture.release()
             break
 
-        
+    # Sleep some before we exist so we don't keep
+    #reconnecting if connection to camera is down
+    time.sleep(3)
+
+    logging.error("Exiting! Couldn't read frame from " + rtsp_url)
     p.kill()
+    os._exit(1)
