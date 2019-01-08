@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{{ title }}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+    <meta charset="utf8" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.6">
+    <link rel="stylesheet" href="https://unpkg.com/js-datepicker@4.0.5/dist/datepicker.min.css"/>    
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/js-datepicker@4.0.5/dist/datepicker.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>    
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+
+    <style type="text/css">
+      
+      #todayscatter {
+      border: solid 1px black;
+      min-width: 310px;
+      height: 350px;
+      }
+      
+      .header {
+      background: #112233 !important;
+      text-align: center;
+      font-size: 18px;
+      height: 30px;
+      }
+      
+      * { box-sizing: border-box; }
+      
+      body { font-family: sans-serif; }
+      
+      /* ---- grid ---- */
+      
+      .grid {
+	  background: white;
+	  max-width: 4000px;
+      }
+      
+      /* clearfix */
+      .grid:after {
+	  content: '';
+	  display: block;
+	  clear: both;
+      }
+      
+      /* ---- grid-item ---- */
+      
+      .grid-sizer,
+      .grid-item {
+	  width: 20%;
+      }
+      
+      .grid-item {
+	  height: 400px;
+	  float: middle;
+	  content:'HEJ';
+	  color: white;
+	  background: black;
+	  border: 5px solid;
+	  border-color: #112233 !important;
+	  border-radius: 10px;
+	  margin-bottom:20px;
+      }
+      
+      .large_video_live {
+	  position:realtive;
+	  top:0;
+	  left:0;
+	  width: 1280px;
+	  height: 720px;
+	  border: 0px solid black display:block;
+	  -moz-transform: scale(0.4);
+	  -moz-transform-origin: 0 0;
+	  -o-transform: scale(0.4);
+	  -o-transform-origin: 0 0;
+	  -webkit-transform: scale(0.4);
+	  -webkit-transform-origin: 0 0;
+      }
+
+
+
+
+    </style>
+    
+    
+    <script>
+      $(function() {
+	  var $grid = $('.grid').masonry({
+	      itemSelector: '.grid-item',
+	      columnWidth: 160,
+	      stagger: 30,
+	      gutter: 20
+	  });
+	  
+      });
+    </script>    
+  </head>
+  <body>
+    
+    
+    <div data-role="page">
+      <div data-role="header"> 
+	<h1>{{title}}</h1> 
+      </div> 
+      
+      <div role="main" class="ui-content">
+	
+	<div href="#" id="todayscatter"></div>
+	
+	<input href="#" id="datepicker_text" data-role="date">
+	<a href="#" id="update" class="ui-btn ui-icon-check ui-btn-icon-notext ui-btn-inline">Update Chart</a>
+	<a href="#" id="prev_day" class="ui-btn ui-icon-arrow-l ui-btn-icon-notext ui-btn-inline">Previous Day</a>
+	<a href="#" id="next_day" class="ui-btn ui-icon-arrow-r ui-btn-icon-notext ui-btn-inline">Next Day</a>
+	<a href="#" id="show_person" class="ui-btn ui-icon-user ui-btn-icon-notext ui-btn-inline">Show Person Only</a>
+	<a href="#" id="show_all" class="ui-btn ui-icon-grid ui-btn-icon-notext ui-btn-inline">Show All</a>
+	
+	
+	<div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 140 }'>
+	  
+	  <div class="grid-item" style="width:522px;height:328px;">
+	    <div class="header">
+	      Entre Live
+	    </div>
+	    <iframe class="large_video_live" id="large_video_live" src="{{ live_cam_1_url }}motion_live.mjpg" href="{{ live_cam_1_url }}motion_live.mjpg" scrolling="no" frameborder=no marginheight="0px">
+	    </iframe>
+	  </div>
+	  
+	  
+	  <div class="grid-item" style="width:522px;height:328px;">
+	    <div class="header">
+	      Altanen Live
+	    </div>
+	    <IFRAME class="large_video_live" id="large_video_live" src="{{ live_cam_2_url }}motion_live.mjpg" href="{{ live_cam_2_url }}motion_live.mjpg" scrolling="no" frameborder=no marginheight="0px">
+	    </IFRAME>
+	    
+	  </div>
+	  
+          {{ last_event_divs|safe }}
+	  	  
+	</div>
+	
+	<div data-role="footer"> 
+	  <h4>
+	    &copy; 2018 - Anders Boan Johansson
+	  </h4> 
+	</div>
+      </div>
+      
+      <script type="text/javascript">
+    	
+	function formatDate(date) {
+	    var dd = date.getDate();
+	    var mm = date.getMonth()+1; //January is 0!
+	    var yyyy = date.getFullYear();
+	    
+	    if(dd<10) {
+		dd = '0'+dd
+	    }
+	    
+	    if(mm<10) {
+		mm = '0'+mm
+	    }
+	    
+	    return yyyy + '-' + mm + '-' + dd;
+	    
+	}
+	function getToday() {
+	    var today = new Date();
+	    return formatDate(today);
+	}
+	
+	
+	$( function() {
+	    const picker = datepicker(document.querySelector('#datepicker_text'), {
+		formatter: function(el, date, instance) {
+		    // This will display the date as `1/1/2017`.
+		    var d = new Date(date),
+			month = '' + (d.getMonth() + 1),
+			day = '' + d.getDate(),
+			year = d.getFullYear();
+		    
+		    if (month.length < 2) month = '0' + month;
+		    if (day.length < 2) day = '0' + day;
+		    
+		    el.value =   [year, month, day].join('-');
+		},
+		onSelect: function(instance) {
+		    var d = instance.dateSelected,
+			month = '' + (d.getMonth() + 1),
+			day = '' + d.getDate(),
+			year = d.getFullYear();
+		    
+		    if (month.length < 2) month = '0' + month;
+		    if (day.length < 2) day = '0' + day;
+		    
+		    var date = [year, month, day].join('-');
+		    document.querySelector('#datepicker_text').value = date;
+		}
+	    });
+	    
+	    
+	} );
+	//************************************
+	// On document ready
+	//************************************
+	$(document).ready(function(){
+	    var date = getToday();
+	    $("#datepicker_text").attr("value", date);
+
+
+	    $.getJSON("api_get_series_json", {date:date}, function(json) {
+		updateChart(date, json);
+	    });
+	});
+	
+	//************************************
+	// Button Clicks
+	//************************************
+	$(document).delegate('#update', 'click', function() {
+	    var date = document.querySelector('#datepicker_text').value;
+
+	    $.getJSON("api_get_series_json", {date:date}, function(json) {
+		updateChart(date, json);
+	    });
+	});
+	$(document).delegate('#prev_day', 'click', function() {
+	    var date = new Date(document.querySelector('#datepicker_text').value);
+	    
+	    date.setDate(date.getDate() - 1);
+
+	    var dateStr = formatDate(date);
+	    $("#datepicker_text").attr("value", dateStr);
+	    $.getJSON("api_get_series_json", {date:dateStr}, function(json) {
+		updateChart(dateStr, json);
+	    });
+	});
+	$(document).delegate('#next_day', 'click', function() {
+	    var date = new Date(document.querySelector('#datepicker_text').value);
+
+	    date.setDate(date.getDate() + 1);
+
+	    var dateStr = formatDate(date);
+	    $("#datepicker_text").attr("value", dateStr);	    
+	    $.getJSON("api_get_series_json", {date:dateStr}, function(json) {
+		updateChart(dateStr, json);
+	    });
+	});
+	$(document).delegate('#show_person', 'click', function() {
+	    for (var i = 0; i < chart.series.length; i++){
+		if(chart.series[i].name!=='person'){
+		    chart.series[i].hide();
+		}
+	    }
+	});
+	$(document).delegate('#show_all', 'click', function() {
+	    var chart=Highcharts.charts[0];
+	    for (var i = 0; i < chart.series.length; i++){
+		if(chart.series[i].name!=='person'){
+		    chart.series[i].show();
+		}
+	    }
+	});
+	
+
+
+	var chart = null;
+	    function updateChart(date, seriesData) {
+		
+		
+		chart = Highcharts.chart(document.querySelector('#todayscatter'), {
+		    chart: {
+			type: 'scatter',
+			zoomType: 'xy'
+		    },
+		    title: {
+			text: 'Motion detected ('  + date +')'
+		    },
+		    xAxis: {
+			title: {
+			    enabled: true,
+			    text: 'Time'
+			},
+			type: 'datetime',
+			
+			startOnTick: true,
+			endOnTick: true,
+			showLastLabel: true
+		    },
+		    yAxis: {
+			title: {
+			    text: '% Motion in movie'
+			}
+		    },
+		    tooltip: {
+			formatter: function() {
+			    return  '<b>' + this.series.name +'</b><br/>' +
+				Highcharts.dateFormat('%Y-%m-%d %H:%M:%S',
+						      new Date(this.x))
+				+ ' date, ' + this.y + ' %';
+			}
+		    },
+		    
+		    legend: {
+			layout: 'vertical',
+			align: 'left',
+			verticalAlign: 'top',
+			x: 100,
+			y: 70,
+			floating: true,
+			backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF',
+			borderWidth: 1
+		    },
+		    plotOptions: {
+			scatter: {
+			    marker: {
+				radius: 5,
+				states: {
+				    hover: {
+					enabled: true,
+					lineColor: 'rgb(100,100,100)'
+				    }
+				}
+			    },
+			    states: {
+				hover: {
+				    marker: {
+					enabled: false
+				    }
+				}
+			    },
+			    events: {
+				click: function (event) {
+				    
+				    
+				    var date = Highcharts.dateFormat('%Y-%m-%d_%H.%M.%S', new Date(event.point.x));
+				    
+				    var myWindow = window.open('{{ mjpg_replay_url }}' + date + '.mjpg');
+				    
+				}
+			    }
+			}
+		    },
+		    series: seriesData
+		     
+		});
+	    }
+
+	
+	
+      </script>
+      
+  </body>
+  
+  
+</html>
