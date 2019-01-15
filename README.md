@@ -9,12 +9,12 @@ In my setup i run the applications on a [Hetzner](https://www.hetzner.com/) bare
 
 I have chosen to deploy all the applications in Docker containers as it forces applications to have minimal dependencies, easy to migrate between hosts and is wonderful to manage in a clean way.
 
-![1](https://github.com/epkboan/epkboan.github.io/blob/master/myskyeeye.png?raw=true "MySkyEye Overview")
+![1](https://github.com/epkboan/epkboan.github.io/blob/master/myskyeye.png?raw=true "MySkyEye Overview")
 
 The applications all share a env.list file that sets environment variables that is passed into the docker containers. The MYSQL parameters are needed both from the CAM apps (registration of motion, objects etc), The MariaDB MySql database and the web_app to display the results.
 
 You must edit the env.list file to match your host and ports you want to use. If you implement this all on one server/host then the myhost will be the same but it could also be different hosts. MJPG, LIVE_CAM URL:s should match the hosts where you start these apps/containers and binds the live feed in the web app to the cameras or replay of videos.
-'''
+```python
 MYSQL_HOST=myhost.registred.domain.org
 MYSQL_PORT=8999
 MYSQL_USER=user
@@ -25,7 +25,7 @@ PYTHONUNBUFFERED=0
 MJPG_REPLAY_URL=http://myhost.registred.domain.org:9600/
 LIVE_CAM_1_URL=http://myhost.registred.domain.org:9601/
 LIVE_CAM_2_URL=http://myhost.registred.domain.org:9602/
-''' 
+```
 
 The applications should be able to run on a standard quad core desktop but then the CPU load will be relative high. See my Hetzner bare metal server: Intel Core i7-7700 @ 3.60GHz (Quad core with 8 threads) 64GB RAM
 
