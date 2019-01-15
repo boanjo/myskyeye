@@ -1,0 +1,25 @@
+
+echo "########Database#########" 
+docker stop myskyeye-db | xargs docker rm
+
+docker create --name myskyeye-db \
+-v $PWD/data:/var/lib/mysql \
+-e MYSQL_ROOT_PASSWORD=Password \
+--env-file ../env.list \
+-p 8999:3306 \
+mariadb
+
+docker start myskyeye-db
+
+echo "########PHP Admin#########" 
+
+docker stop myskyeye-myadmin | xargs docker rm
+
+docker create --name myskyeye-myadmin \
+-e PMA_HOST=myhost.registred.domain.org \
+-e PMA_PORT=8999 \
+-p 8998:80 \
+phpmyadmin/phpmyadmin
+
+docker start myskyeye-myadmin
+
