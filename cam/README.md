@@ -1,4 +1,4 @@
-==My Sky Eye Camera== 
+# My Sky Eye Camera 
 For every camera you want in the system you start a docker instance which you parameterize with the env.list and some additional properties when you create the container. When you have updated the ../env.list and the docker.txt file you can do "source docker.txt" or you can execute the commands one by one or copy and paste the whole content into a command shell.
 
 The Container is based on the tensorflow (ubuntu 16.10) container and is extended with:
