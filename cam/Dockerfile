@@ -32,7 +32,6 @@ RUN pip install opencv-python-headless \
 		
 RUN mkdir -p /app/utils
 RUN mkdir -p /app/model
-RUN mkdir -p /app/output
 WORKDIR /app
 ADD *.py /app/
 ADD model/* /app/model/
