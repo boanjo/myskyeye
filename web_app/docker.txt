@@ -8,7 +8,7 @@ docker create --name myskyeye-webapp \
 --restart always \
 -p 8997:5000 \
 --env-file=../env.list \
--v /home/username/repos/myskyeye/web_app/output/images:/app/static/images \
+-v /home/username/repos/myskyeye/output/images:/app/static/images \
 -t my-sky-eye-webapp
 
 docker start myskyeye-webapp
