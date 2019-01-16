@@ -1,6 +1,7 @@
 
 echo "########Database#########" 
-docker stop myskyeye-db | xargs docker rm
+docker stop myskyeye-db
+docker rm myskyeye-db
 
 docker create --name myskyeye-db \
 -v $PWD/data:/var/lib/mysql \
@@ -13,7 +14,8 @@ docker start myskyeye-db
 
 echo "########PHP Admin#########" 
 
-docker stop myskyeye-myadmin | xargs docker rm
+docker stop myskyeye-myadmin
+docker rm myskyeye-myadmin
 
 docker create --name myskyeye-myadmin \
 -e PMA_HOST=myhost.registred.domain.org \
