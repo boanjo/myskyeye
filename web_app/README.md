@@ -8,3 +8,8 @@ There is a highcharts graph showing all the objects that have been detected duri
 The next part is live mjpeg feeds from the cameras (One for the real time motion with annotations) and one with plain video. NOTE! these streams are using MJPG (To be able to view the page in any type of browser or device) and will quickly use more bandwidth if displayed continously.
 
 The last part of the page is showing the last 16 (configure it to your needs) MUG shots ("Best" image with max persons in the picture). Click to replay the movie.
+
+## Building
+Edit the env.list (common for all the apps) and update any specific URL:s, ports etc in the docker.txt. Then do "source docker.txt" or run the commands manually
+
+Navigate to the ipaddress and the port you choose to expose /dashboard. (in the docker.txt sample 8997) i.e. http://localhost:8997/dashboard
