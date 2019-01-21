@@ -23,3 +23,5 @@ Each camera produces two live feeds that can be viewed in realtime. One for just
 
 If you want really cheap cameras then i recommend [Wanscam bullet camera (HW0043)](https://www.ebay.co.uk/itm/WANSCAM-New-HW0043-1-0Megapixel-720P-Outdoor-Wireless-P2P-IR-Cut-IP-Camera-White/252195426824?epid=2255978054&hash=item3ab804d208:g:iHcAAOSw-0xYbRM4:rk:5:pf:1). They give good enough image quality, are easy to manage and seem very stable (I have a few that have been continuously running without any hiccups for a few years. They are really small but you can strip them even further to add you own custom 10wire cable extension or build it into some other casing.
 
+![2](https://github.com/epkboan/epkboan.github.io/blob/master/entre_camera.JPG?raw=true "MySkyEye Entre")
+
