@@ -1,5 +1,5 @@
 # myskyeye
-A personal surveillance system written mainly in Python using TensorFlow for object recognition and OpenCV for most frame worker (capture, save, copy, filter, motion detection etc). You can of course buy this kind of functionalty but if you are like me interested in learning new stuff, this can be used as inspiration to make it fit your needs (even if it will work out of the box too). The next step is to also do recognition of people caught on the cameras with optional alarm triggering.
+A personal surveillance system written mainly in Python using TensorFlow for object recognition and OpenCV for most frame worker (capture, save, copy, filter, motion detection etc). You can of course buy this kind of functionalty but if you are like me interested in learning new stuff, this can be used as inspiration to make it fit your needs (even if it will work out of the box too). The next step is to also do facial recognition of people caught on the cameras with optional alarm triggering. 
 
 In my setup i run the applications on a [Hetzner](https://www.hetzner.com/) bare metal server outside of my premises and have a continuous RTSP stream from the cameras. If someone tries to tamper with the cameras it will record up until the last frame before the power or internet is cut off. 
 
@@ -36,3 +36,6 @@ The applications should be able to run on a standard quad core desktop but then 
 As you can see above the CPU goes between 45% and 60% depending on the day/night on the cameras (nightvision is less bit/s due to switching to monochrome mode)
 
 It is primarily the object recognition (Tensorflow) that eats CPU. It could be reduced by just using the object recongnition on the parts where motion is detected but currently it works over the whole frame and for every frame (6fps). If you run this on a standard desktop then you could utilize GPU which is great for Tensorflow. But then you will need to install the docker ce version that has GPU support (and you will most likely not be able to use this applications straight off but rather do a fork.
+
+I also have a cheap 10" tablet showing who is outside the door (with a custom android app showing 2 stills per second) 
+![3](https://github.com/epkboan/epkboan.github.io/blob/master/facial_recognition.jpg?raw=true "Facial Recognition")
