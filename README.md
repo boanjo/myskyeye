@@ -1,8 +1,10 @@
 # myskyeye
-A personal surveillance system written mainly in Python using TensorFlow for object recognition and OpenCV for most frame worker (capture, save, copy, filter, motion detection etc).
+A personal surveillance system written mainly in Python using TensorFlow for object recognition and OpenCV for most frame worker (capture, save, copy, filter, motion detection etc). You can of course buy this kind of functionalty but if you are like me interested in learning new stuff, this can be used as inspiration to make it fit your needs (even if it will work out of the box too). The next step is to also do recognition of people caught on the cameras with optional alarm triggering.
 
-In my setup i run the applications on a [Hetzner](https://www.hetzner.com/) bare metal server outside of my premises and have a continuous RTSP stream from the cameras. The application is built mainly of 4 parts:
-* One [RTSP streaming application](https://github.com/epkboan/myskyeye/blob/master/cam/README.md) per camera 
+In my setup i run the applications on a [Hetzner](https://www.hetzner.com/) bare metal server outside of my premises and have a continuous RTSP stream from the cameras. If someone tries to tamper with the cameras it will record up until the last frame before the power or internet is cut off. 
+
+The application is built mainly of 4 parts:
+* One [RTSP streaming application](https://github.com/epkboan/myskyeye/blob/master/cam/README.md) instance per camera 
 * One [Database](https://github.com/epkboan/myskyeye/blob/master/database/README.md) instance
 * One [Web Server](https://github.com/epkboan/myskyeye/blob/master/web_app/README.md) instance
 * One [MJPG replay application](https://github.com/epkboan/myskyeye/blob/master/cam/README.md) instance
@@ -27,7 +29,7 @@ LIVE_CAM_1_URL=http://myhost.registred.domain.org:9601/
 LIVE_CAM_2_URL=http://myhost.registred.domain.org:9602/
 ```
 
-The applications should be able to run on a standard quad core desktop but then the CPU load will be relative high. See my Hetzner bare metal server: Intel Core i7-7700 @ 3.60GHz (Quad core with 8 threads) 64GB RAM
+The applications should be able to run on a standard quad core desktop but then the CPU load will be relative high. My Hetzner bare metal server: Intel Core i7-7700 @ 3.60GHz (Quad core with 8 threads) 64GB RAM
 
 ![2](https://github.com/epkboan/epkboan.github.io/blob/master/boan_utilization.jpg?raw=true "Resource Utilization")
 
