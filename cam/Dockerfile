@@ -1,6 +1,6 @@
 FROM tensorflow/tensorflow:1.12.0
 
-MAINTAINER Anders Boan Johansson <epkboan@gmail.com>
+MAINTAINER Anders Boan Johansson <boanjo@gmail.com>
 
 RUN apt-get update && yes | apt-get upgrade
 RUN apt-get install -y git \
